@@ -44,7 +44,7 @@ public class Cliente implements Serializable {
     @Column(length = 20) 
     private String rg; 
     
-    @OneToMany
+    @OneToMany(mappedBy = "cliente")
     private List<Venda> vendas;
 
     
@@ -80,6 +80,14 @@ public class Cliente implements Serializable {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+    public List<Venda> getVendas() {
+        return vendas;
+    }
+
+    public void setVendas(List<Venda> vendas) {
+        this.vendas = vendas;
     }
     
     

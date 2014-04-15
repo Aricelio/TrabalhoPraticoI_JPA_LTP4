@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,18 +31,17 @@ public class Venda implements Serializable {
     @Column(name = "VendaID")
     private Long id;
 
-    @Column(scale = 2, precision = 4)
+    @Column(scale = 2, precision = 8)
     private BigDecimal valorTotal;
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataVenda;
     
-    @ManyToOne
-    @JoinColumn(name = "ClienteID")
+    @ManyToOne(optional = false)
     private Cliente cliente;
     
-    @OneToMany
-    private List<ItemVenda> itensVenda;   
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "venda")
+    private List<ItemVenda> itens;   
     
         
     
@@ -79,13 +79,20 @@ public class Venda implements Serializable {
     }
 
     public List<ItemVenda> getItensVenda() {
-        return itensVenda;
+        return itens;
     }
 
     public void setItensVenda(List<ItemVenda> itensVenda) {
-        this.itensVenda = itensVenda;
+        this.itens = itensVenda;
     }
 
+    public void add(ItemVenda i){
+        if(!itens.contains(i)){
+            i.setVenda(this);
+            itens.add(i);
+            valorTotal = valorTotal.add(i.getProduto().getPreco().multiply(new BigDecimal(i.getQuantidade())));
+        }
+    }
     
     @Override
     public int hashCode() {

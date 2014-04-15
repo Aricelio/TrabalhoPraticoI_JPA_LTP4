@@ -27,13 +27,11 @@ public class ItemVenda implements Serializable {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "ProdutoID")
     private Produto produto;    
     
     private int quantidade;
     
     @ManyToOne
-    @JoinColumn(name = "VendaID")
     private Venda venda;
 
     //.............Getters e Setters..........................................//

@@ -33,12 +33,9 @@ public class Produto implements Serializable {
     @Column(length = 50)
     private String nome;
     
-    @Column(scale = 2, precision = 4)
+    @Column(scale = 2, precision = 8)
     private BigDecimal preco;
-    
-    @OneToMany
-    private List<ItemVenda> ItensVenda;
-
+  
     //.............Getters e Setters..........................................//
     public String getNome() {
         return nome;
